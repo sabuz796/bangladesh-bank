@@ -2,22 +2,22 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>BD Bank</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
-
   <div id="login-area">
     <h1 class="text-center">Welcome to Bangladesh Bank</h1>
     <div class="submit-area">
       <h3>Login</h3>
-      <input class="form-control" type="email" name="" id="" placeholder="email"><br>
-      <input class="form-control" type="password" name="" id="" placeholder="password"><br>
+      <input class="form-control" type="email" name="" id="" placeholder="email" /><br />
+      <input class="form-control" type="password" name="" id="" placeholder="password" /><br />
       <button id="login" class="btn btn-success">Enter</button>
     </div>
   </div>
@@ -33,13 +33,15 @@
       <div class="col-md-4">
         <div class="withdraw status">
           <h5 class="text-center">Withdraw</h5>
-          <h2 class="text-center">$ 00</h2>
+          <h2 class="text-center">$ <span id="current-withdraw">00</span></h2>
         </div>
       </div>
       <div class="col-md-4">
         <div class="balance status">
           <h5 class="text-center">Balance</h5>
-          <h2 class="text-center">$ <span id="current-balance">1240</span></h2>
+          <h2 class="text-center">
+           $ <span id="current-balance">1240</span>
+          </h2>
         </div>
       </div>
     </div>
@@ -48,54 +50,76 @@
       <div class="col-md-6">
         <div class="submit-area">
           <h2>Deposit</h2>
-          <input id="deposit-amount" class="form-control" type="text" name="" value="" placeholder="$ amont you want to deposit"><br>
-          <button id="deposit" class="btn btn-success" type="button" name="button">Deposit</button>
+          <input id="deposit-amount" class="form-control" type="text" name="" value=""
+            placeholder="$ amount you want to deposit" /><br />
+          <button id="deposit" class="btn btn-success" type="button" name="button">
+            Deposit
+          </button>
         </div>
       </div>
       <div class="col-md-6">
         <div class="submit-area">
           <h2>Withdraw</h2>
-          <input id="withdraw-amount" class="form-control" type="text" name="" value="" placeholder="$ amount you want to withdraw"><br>
-          <button id="withdraw" class="btn btn-success" type="button" name="button">Withdraw</button>
+          <input id="withdraw-amount" class="form-control" type="text" name="" value=""
+            placeholder="$ amount you want to withdraw" /><br />
+          <button id="withdraw" class="btn btn-success" type="button" name="button">
+            Withdraw
+          </button>
         </div>
       </div>
     </div>
   </div>
 
-
-
-
-
   <script type="text/javascript">
+     
+    // login button handler
     const loginBtn = document.getElementById("login");
-    loginBtn.addEventListener("click", function() {
+    loginBtn.addEventListener("click", function () {
       const loginArea = document.getElementById("login-area");
       loginArea.style.display = "none";
       const transactionArea = document.getElementById("transaction-area");
       transactionArea.style.display = "block";
-    })
+    });
+     
 
+    //  deposit button handler
     const depositBtn = document.getElementById("deposit");
-    depositBtn.addEventListener("click",function(){
-      const depositAmount = document.getElementById("deposit-amount").value;
-      const depositNumber = parseFloat(depositAmount);
-
-      const currentDeposit = document.getElementById("current-deposit").innerText;
-      const currentDepositNumber = parseFloat(currentDeposit);
-      const totalDeposit = depositNumber + currentDepositNumber;
-      document.getElementById("current-deposit").innerText = totalDeposit;
-
-      const currentBalance = document.getElementById("current-balance").innerText;
-      const currentBalanceNumber = parseFloat(currentBalance);
-      const totalBalance = depositNumber + currentBalanceNumber;
-      document.getElementById("current-balance").innerText = totalBalance;
-
+    depositBtn.addEventListener("click", function () {
+      
+      const depositNumber = getInputNumber("deposit-amount");       
+      updateSpanText("current-deposit",depositNumber);
+      updateSpanText("current-balance",depositNumber);
       document.getElementById("deposit-amount").value = "";
+     
+    });
 
-    })
+    //withdraw button event handler
+
+    const withdrawBtn = document.getElementById("withdraw");
+    withdrawBtn.addEventListener("click",function(){
+      const withdrawAmount = getInputNumber("withdraw-amount");
+
+      document.getElementById("withdraw-amount").value = "";
+
+    });
+    
+    function getInputNumber (id){
+      const amount = document.getElementById(id).value;
+      const amountNumber = parseFloat(amount);
+      return amountNumber;
+    }
+
+    function updateSpanText(id, depositNumber){
+      const current = document.getElementById(id).innerText;
+      const currentNumber = parseFloat(current);
+      const totalAmount = depositNumber + currentNumber;
+      document.getElementById(id).innerText = totalAmount;
+    }
   </script>
 
-  <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  
+
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script> -->
 </body>
